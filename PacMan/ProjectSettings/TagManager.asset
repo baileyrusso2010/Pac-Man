@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Pacman
+  - food
+  - Manager
   layers:
   - Default
   - TransparentFX
