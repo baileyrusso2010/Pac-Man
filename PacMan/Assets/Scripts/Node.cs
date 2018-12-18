@@ -9,9 +9,9 @@ public class Node : MonoBehaviour {
     GameObject Pac;
 
     Vector2 position;
-    float distance = 0f;
+    public float distance = 0f;
 
-    public bool Up, Down, Left, Right;
+    public Node left, right, up, down;
 
     void Start () 
     {
@@ -23,13 +23,12 @@ public class Node : MonoBehaviour {
 	
 	void Update () 
     {
+        
         distance = Mathf.Sqrt(Mathf.Pow(Pac.transform.position.x - position.x,2)+
                               Mathf.Pow(Pac.transform.position.y - position.y,2));
-		
-        if(distance <= 1)
-        {
-            render.sprite = null;
-        }
 
+        //set distance to less that /.05
+        //put this in a method and then when we set the sprite render equal to null
+        //say when not null not to do this
 	}//end of update
 }

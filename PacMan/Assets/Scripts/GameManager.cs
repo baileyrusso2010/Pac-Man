@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public GameObject[] nodes;
+    GameObject[] nodes;
+    public List<Node> pieces;
 
     void Start () {
 
         nodes = GameObject.FindGameObjectsWithTag("food");
+        for (int i = 0; i < nodes.Length;i++)
+        {
+            pieces.Add(nodes[i].GetComponent<Node>());
+
+        }
 	}
 	
 	void Update () {
 		
 	}
 
-    void Test() 
-    {
-        Debug.Log("we in this bitch");
-    }
 }
