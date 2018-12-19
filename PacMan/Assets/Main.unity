@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 0
   left: {fileID: 801272341}
-  right: {fileID: 0}
+  right: {fileID: 1674536599}
   up: {fileID: 0}
   down: {fileID: 0}
 --- !u!212 &478614579
@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 1236618639}
   - component: {fileID: 1236618638}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: PacMan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -835,6 +835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  headNode: {fileID: 0}
 --- !u!4 &1236618639
 Transform:
   m_ObjectHideFlags: 0
@@ -842,7 +843,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1236618637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.35, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8552135, y: 0.85521376, z: 0.85521376}
   m_Children:
   - {fileID: 2065922917}
@@ -878,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 0
-  left: {fileID: 0}
+  left: {fileID: 478614578}
   right: {fileID: 895189798}
   up: {fileID: 0}
   down: {fileID: 0}

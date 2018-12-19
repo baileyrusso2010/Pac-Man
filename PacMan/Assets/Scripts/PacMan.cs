@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PacMan : MonoBehaviour {
 
+    //https://theuijunkie.com/pac-man-ghosts-movement/
+
     public int speed;//how fast the player goes
 
     Vector2 direction;//direction player goes
@@ -12,6 +14,8 @@ public class PacMan : MonoBehaviour {
     Transform child;//gets child object
 
     GameManager manager;//will only have one instance of gamemanager
+
+    public Node headNode;
 
 	void Start () 
     {
@@ -26,14 +30,49 @@ public class PacMan : MonoBehaviour {
 	void Update () 
     {
         MovePacMan();
+        headNode = GetNode();
 
-        transform.Translate(direction * speed * Time.deltaTime);//always moving 
-
+        if (canMove(headNode) == true)
+        {
+            transform.Translate(direction * speed * Time.deltaTime);//always moving 
+        }
+        else
+            transform.position = Vector2.MoveTowards(new Vector2(transform.position.x,
+                                                                 transform.position.y),
+                                                     new Vector2(headNode.transform.position.x,
+                                                                 headNode.transform.position.y),
+                                                        speed * Time.deltaTime);
         //transitions cordinates 
         screenPoint = Camera.main.WorldToViewportPoint(this.transform.position);
-        Debug.Log(GetNode().distance);
 
 	}//end of update
+
+    bool canMove(Node node)
+    {
+        if(node.left == null && direction == Vector2.left)
+        {
+            return false;
+
+        }
+        if (node.right == null && direction == Vector2.right)
+        {
+            return false;
+
+        }
+        if (node.up == null && direction == Vector2.up)
+        {
+            return false;
+
+        }
+        if (node.down == null && direction == Vector2.down)
+        {
+            return false;
+
+        }
+
+        return true;
+    }
+
 
     void MovePacMan()
     {
@@ -42,24 +81,29 @@ public class PacMan : MonoBehaviour {
         if (Input.GetKey(KeyCode.A) && node.left != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, 180);
+            transform.position = new Vector3(this.transform.position.x, node.transform.position.y);
             direction = Vector2.left;
         }
 
         if (Input.GetKey(KeyCode.D) && node.right != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.position = new Vector3(this.transform.position.x, node.transform.position.y);
             direction = Vector2.right;
         }
 
         if (Input.GetKey(KeyCode.W) && node.up != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, 90);
+            transform.position = new Vector3(node.transform.position.x,this.transform.position.y);
             direction = Vector2.up;
         }
 
         if (Input.GetKey(KeyCode.S) && node.down != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, -90);
+            transform.position = new Vector3(node.transform.position.x, this.transform.position.y);
+
             direction = Vector2.down;
         }
 
@@ -80,13 +124,13 @@ public class PacMan : MonoBehaviour {
 
         for (int i = 0; i < manager.pieces.Count; i++)
         {
-            if(manager.pieces[i].distance-.5 < node.distance)
+            if(manager.pieces[i].distance < node.distance)
             {
                 node = manager.pieces[i];//new closest node
             }
         }
         return node;
-    }
+    }//end of GetNode
 
 
 
