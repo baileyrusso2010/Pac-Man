@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Node : MonoBehaviour {
 
-    SpriteRenderer render;
+    public SpriteRenderer render;
     SpriteRenderer pacMan;
     GameObject Pac;
 

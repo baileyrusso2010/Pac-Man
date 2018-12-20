@@ -15,7 +15,7 @@ public class PacMan : MonoBehaviour {
 
     GameManager manager;//will only have one instance of gamemanager
 
-    public Node headNode;
+    public Node headNode;//get current node
 
 	void Start () 
     {
@@ -42,7 +42,7 @@ public class PacMan : MonoBehaviour {
                                                      new Vector2(headNode.transform.position.x,
                                                                  headNode.transform.position.y),
                                                         speed * Time.deltaTime);
-        //transitions cordinates 
+        //transitions cordinates for screen wrapping
         screenPoint = Camera.main.WorldToViewportPoint(this.transform.position);
 
 	}//end of update
@@ -71,8 +71,7 @@ public class PacMan : MonoBehaviour {
         }
 
         return true;
-    }
-
+    }//end of canMove
 
     void MovePacMan()
     {
@@ -85,21 +84,21 @@ public class PacMan : MonoBehaviour {
             direction = Vector2.left;
         }
 
-        if (Input.GetKey(KeyCode.D) && node.right != null)
+        else if (Input.GetKey(KeyCode.D) && node.right != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, 0);
             transform.position = new Vector3(this.transform.position.x, node.transform.position.y);
             direction = Vector2.right;
         }
 
-        if (Input.GetKey(KeyCode.W) && node.up != null)
+        else if (Input.GetKey(KeyCode.W) && node.up != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, 90);
             transform.position = new Vector3(node.transform.position.x,this.transform.position.y);
             direction = Vector2.up;
         }
 
-        if (Input.GetKey(KeyCode.S) && node.down != null)
+        else if (Input.GetKey(KeyCode.S) && node.down != null)
         {
             child.transform.rotation = Quaternion.Euler(0, 0, -90);
             transform.position = new Vector3(node.transform.position.x, this.transform.position.y);
@@ -113,7 +112,7 @@ public class PacMan : MonoBehaviour {
         if (screenPoint.x < 0)
             this.transform.position = new Vector3(Camera.main.ViewportToWorldPoint(new Vector3(1,0,0)).x 
                                                                                    ,transform.position.y);
-    
+        
     }//end of MovePacMan
 
     Node GetNode()
@@ -129,11 +128,8 @@ public class PacMan : MonoBehaviour {
                 node = manager.pieces[i];//new closest node
             }
         }
+
         return node;
     }//end of GetNode
-
-
-
-
 
 }//end of Script
