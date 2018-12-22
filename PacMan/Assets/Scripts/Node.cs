@@ -19,6 +19,7 @@ public class Node : MonoBehaviour {
         Pac = GameObject.FindWithTag("Pacman");//finds pacman gameobject
         pacMan = Pac.GetComponent<SpriteRenderer>();//gets pacmans S.R.
         position = this.transform.position;//gets the position of this food
+       //render.sprite = null;
     }//end of start 
 	
 	void Update () 

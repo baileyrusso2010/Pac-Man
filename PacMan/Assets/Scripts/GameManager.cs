@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour {
     GameObject[] nodes;
     public List<Node> pieces;
 
+    public int lives;//number of lives
+
+
     void Start () {
 
         nodes = GameObject.FindGameObjectsWithTag("food");
@@ -19,6 +22,12 @@ public class GameManager : MonoBehaviour {
 	
 	void Update () {
 		
-	}
+	}//end of update
 
-}
+    void Restart()
+    {
+
+
+    }//end of restart
+
+}//end of script
