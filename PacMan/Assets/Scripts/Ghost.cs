@@ -8,12 +8,16 @@ public class Ghost : MonoBehaviour {
     public string ghostName;
 
     Vector2 direction;
-    Vector2 screenPoint;
-    Vector2 position;
+    Vector2 screenPoint;//gets the screen position
+    Vector2 position;//current position
 
-    Node currentNode;
+    Node currentNode;//current node
 
     public GameObject Pac;
+
+    int randPosition = 0;//gets random position
+
+    List<Node> path;//path that the ghost has to take
 
     GameManager manager;//will only have one instance of gamemanager
 
@@ -51,6 +55,20 @@ public class Ghost : MonoBehaviour {
 
     }//end of chase
    
+
+    void Test()
+    {
+       
+        randPosition = Random.Range(0, 9);//gets random position
+
+        currentNode = GetNode();//gets the current node
+        path = NodeList(randPosition,currentNode);//gets the path
+
+
+
+
+    }//end of test
+
     void Scatter()
     {
 
@@ -79,5 +97,63 @@ public class Ghost : MonoBehaviour {
         return Mathf.Sqrt(Mathf.Pow(Pac.transform.position.x - position.x, 2) +
                       Mathf.Pow(Pac.transform.position.y - position.y, 2));
     }
+
+    List<Node> NodeList(int num, Node currenNode)
+    {
+
+        Node child = currenNode;
+        List<Node> holderNode = new List<Node>();
+
+        System.Random rand = new System.Random();
+        int randomNum = rand.Next(0, 4);
+
+        if (randomNum == 0)
+        {
+            
+        }else if(randomNum == 1)
+        {
+            
+        }else if(randomNum == 2)
+        {
+            
+        }else if (randomNum == 3)
+        {
+            
+        }
+
+        if(num > 0)
+        {
+            while(true)
+            {
+                break;
+            }
+
+
+            num--;
+
+        }
+      
+
+        return holderNode;
+    }
+
+
+    Node GetNode()
+    {
+        Node node = null;//sets to null
+
+        node = manager.pieces[0];//gets first node
+
+        for (int i = 0; i < manager.pieces.Count; i++)
+        {
+            if (manager.pieces[i].distance < node.distance)
+            {
+                node = manager.pieces[i];//new closest node
+            }
+        }
+
+        return node;
+    }//end of GetNode
+
 
 }//end of scirpt

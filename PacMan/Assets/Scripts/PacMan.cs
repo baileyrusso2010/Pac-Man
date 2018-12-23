@@ -45,6 +45,7 @@ public class PacMan : MonoBehaviour {
         //transitions cordinates for screen wrapping
         screenPoint = Camera.main.WorldToViewportPoint(this.transform.position);
 
+
 	}//end of update
 
     bool canMove(Node node)
