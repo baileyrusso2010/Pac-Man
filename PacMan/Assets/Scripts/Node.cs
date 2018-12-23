@@ -5,8 +5,10 @@ using UnityEngine;
 public class Node : MonoBehaviour {
 
     public SpriteRenderer render;
+    public Sprite sp;
     SpriteRenderer pacMan;
     GameObject Pac;
+    public bool isFood = false;
 
     Vector2 position;
     public float distance = 0f;
@@ -16,6 +18,8 @@ public class Node : MonoBehaviour {
     void Start () 
     {
         render = this.GetComponent<SpriteRenderer>();//gets this gameobject S.R.
+        sp = render.sprite;
+
         Pac = GameObject.FindWithTag("Pacman");//finds pacman gameobject
         pacMan = Pac.GetComponent<SpriteRenderer>();//gets pacmans S.R.
         position = this.transform.position;//gets the position of this food
