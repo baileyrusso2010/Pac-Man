@@ -11,16 +11,17 @@ public class Ghost : MonoBehaviour {
     Vector2 screenPoint;//gets the screen position
     Vector2 position;//current position
 
-    Node currentNode;//current node
+    public Node currentNode;//current node
 
     public GameObject Pac;
 
     int randPosition = 0;//gets random position
 
-    List<Node> path;//path that the ghost has to take
+    public List<Node> path;//path that the ghost has to take
+    List<Vector2> dir = new List<Vector2>();
 
     GameManager manager;//will only have one instance of gamemanager
-
+    int x = 0;
 
     /*
      * Note it looks like 
@@ -28,7 +29,6 @@ public class Ghost : MonoBehaviour {
      * pre determined positions
      * so dont update every frame
      */
-
 
 
     void Start()
@@ -40,7 +40,9 @@ public class Ghost : MonoBehaviour {
 
     void Update()
     {
-        position = this.transform.position;    
+        position = this.transform.position;
+        Test();
+
     }
 
     void Chase()
@@ -58,14 +60,31 @@ public class Ghost : MonoBehaviour {
 
     void Test()
     {
-       
-        randPosition = Random.Range(0, 9);//gets random position
 
-        currentNode = GetNode();//gets the current node
-        path = NodeList(randPosition,currentNode);//gets the path
+        if (x == 0)
+        {
+            Debug.Log("sdfs");
+            randPosition = Random.Range(40, 60);//gets random position
+            currentNode = GetNode();//gets the current node
+            path = NodeList(randPosition, currentNode);//gets the path
+            x++;
 
+        }
 
+        if (NodeDistance(path[0]) > 1f)
+        {
 
+            Movement();
+            direction = dir[0];
+
+        }
+        else
+        {
+            path.RemoveAt(0);
+            dir.RemoveAt(0);
+            if (path.Count == 0)
+                x = 0;
+        }
 
     }//end of test
 
@@ -86,9 +105,6 @@ public class Ghost : MonoBehaviour {
          * If pacman eats the food
          * go somewhere away from him
          */
-
-
-
     }
 
     float Distance()
@@ -98,44 +114,86 @@ public class Ghost : MonoBehaviour {
                       Mathf.Pow(Pac.transform.position.y - position.y, 2));
     }
 
-    List<Node> NodeList(int num, Node currenNode)
+    void Movement()
     {
 
-        Node child = currenNode;
-        List<Node> holderNode = new List<Node>();
 
+        transform.Translate(direction * speed * Time.deltaTime);
+
+ 
+    }
+
+
+    List<Node> NodeList(int num, Node currNode)
+    {
+        Node testNode = currNode;
+        List<Node> holderNode = new List<Node>();//list of nodes to return
+        Node previousNode = testNode;
         System.Random rand = new System.Random();
-        int randomNum = rand.Next(0, 4);
+        Vector2 d = Vector2.zero;
+        int r = 0;
+        int counter = 0;
 
-        if (randomNum == 0)
+        while(num > 0)
         {
-            
-        }else if(randomNum == 1)
-        {
-            
-        }else if(randomNum == 2)
-        {
-            
-        }else if (randomNum == 3)
-        {
-            
-        }
-
-        if(num > 0)
-        {
-            while(true)
+            while (true)
             {
-                break;
-            }
+                if (counter < 10)
+                {
+                    r = rand.Next(1, 5);
+                }
+                else
+                {
+                    r = 0;
+
+                }
+                if (r==1&& testNode.up != null && testNode.up != previousNode)//up
+                {
+                    previousNode = testNode;
+                    d = Vector2.up;
+                    testNode = testNode.up;
+
+                    break;
+                }
+                else if (r==2 && testNode.left != null && testNode.left != previousNode)//left
+                {
+                    previousNode = testNode;
+                    testNode = testNode.left;
+                    d = Vector2.left;
+
+                    break;
+                }
+
+                else if (r==3 && testNode.down != null && testNode.down != previousNode)//down
+                {
+                    previousNode = testNode;
+                    d = Vector2.down;
+                    testNode = testNode.down;
+                    break;
+                }
+                else if (r==4 && testNode.right != null && testNode.right != previousNode)//right
+                {
+                    previousNode = testNode;
+                    d = Vector2.right;
+                    testNode = testNode.right;
+
+                    break;
+                }
+                counter++;
 
 
+            }//end of while looop
+                
+
+            holderNode.Add(testNode);//add to node list
+            dir.Add(d);
             num--;
 
-        }
+        }//end of numOfNodes if
       
 
         return holderNode;
-    }
+    }//end of NodeList
 
 
     Node GetNode()
@@ -146,14 +204,22 @@ public class Ghost : MonoBehaviour {
 
         for (int i = 0; i < manager.pieces.Count; i++)
         {
-            if (manager.pieces[i].distance < node.distance)
+            if (NodeDistance(manager.pieces[i]) < NodeDistance(node))
             {
+                //only checks pacmans position not nodes position
                 node = manager.pieces[i];//new closest node
             }
         }
 
         return node;
     }//end of GetNode
+
+    float NodeDistance(Node node)
+    {
+        return Mathf.Sqrt(Mathf.Pow(node.transform.position.x - position.x, 2) +
+                          Mathf.Pow(node.transform.position.y - position.y, 2));
+    }//end of NodeDistance
+
 
 
 }//end of scirpt
